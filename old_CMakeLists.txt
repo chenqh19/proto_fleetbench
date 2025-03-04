@@ -1,0 +1,42 @@
+cmake_minimum_required(VERSION 3.10)
+project(fleetbench)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Find required packages
+find_package(Protobuf REQUIRED)
+find_package(absl REQUIRED)
+
+add_subdirectory(/home/chenqh23/ser1de/protobuf/third_party/abseil-cpp abseil)
+
+# Generate protobuf files
+protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS
+    Message0.proto
+    Message1.proto
+    Message2.proto
+    Message3.proto
+    Message4.proto
+    Message5.proto
+    Message6.proto
+    Message7.proto
+    Message8.proto
+    Message9.proto
+)
+
+# Create executable
+add_executable(run_lifecycle 
+    main.cc
+    lifecycle.cc
+    ${PROTO_SRCS}
+)
+
+# Include directories
+target_include_directories(run_lifecycle PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${Protobuf_INCLUDE_DIRS}
+)
+
+
