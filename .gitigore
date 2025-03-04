@@ -2,5 +2,5 @@
 build/
 
 # Protobuf files
-*.pb.cc
-*.pb.h
+proto_files/*.pb.cc
+proto_files/*.pb.h

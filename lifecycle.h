@@ -20,16 +20,16 @@
 #include <string>
 #include <vector>
 
-#include "Message0.pb.h"
-#include "Message1.pb.h"
-#include "Message2.pb.h"
-#include "Message3.pb.h"
-#include "Message4.pb.h"
-#include "Message5.pb.h"
-#include "Message6.pb.h"
-#include "Message7.pb.h"
-#include "Message8.pb.h"
-#include "Message9.pb.h"
+#include "proto_files/protos/Message0.pb.h"
+#include "proto_files/protos/Message1.pb.h"
+#include "proto_files/protos/Message2.pb.h"
+#include "proto_files/protos/Message3.pb.h"
+#include "proto_files/protos/Message4.pb.h"
+#include "proto_files/protos/Message5.pb.h"
+#include "proto_files/protos/Message6.pb.h"
+#include "proto_files/protos/Message7.pb.h"
+#include "proto_files/protos/Message8.pb.h"
+#include "proto_files/protos/Message9.pb.h"
 #include "google/protobuf/arena.h"
 
 namespace proto {

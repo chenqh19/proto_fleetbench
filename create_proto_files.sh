@@ -1,3 +1,5 @@
+cd proto_files
+
 /home/chenqh23/ser1de/protobuf/protoc Message0.proto --cpp_out=.
 echo "Message0.proto done"
 /home/chenqh23/ser1de/protobuf/protoc Message1.proto --cpp_out=.

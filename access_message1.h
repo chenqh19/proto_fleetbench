@@ -20,7 +20,7 @@
 #include <cstdint>
 #include <string>
 
-#include "Message1.pb.h"
+#include "proto_files/protos/Message1.pb.h"
 #include "receiver.h"
 namespace proto {
 
