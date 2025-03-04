@@ -71,7 +71,7 @@ set(protobuf_ABSL_USED_TARGETS
 )
 
 add_executable(test main.cc lifecycle.cc
-    proto_files/protos/Message0.pb.cc proto_files/protos/Message1.pb.cc proto_files/protos/Message2.pb.cc proto_files/protos/Message3.pb.cc 
-    proto_files/protos/Message4.pb.cc proto_files/protos/Message5.pb.cc proto_files/protos/Message6.pb.cc proto_files/protos/Message7.pb.cc 
-    proto_files/protos/Message8.pb.cc proto_files/protos/Message9.pb.cc)
+    proto_files/Message0.pb.cc proto_files/Message1.pb.cc proto_files/Message2.pb.cc proto_files/Message3.pb.cc 
+    proto_files/Message4.pb.cc proto_files/Message5.pb.cc proto_files/Message6.pb.cc proto_files/Message7.pb.cc 
+    proto_files/Message8.pb.cc proto_files/Message9.pb.cc)
 target_link_libraries(test protobuf utf8_validity ${protobuf_ABSL_USED_TARGETS})

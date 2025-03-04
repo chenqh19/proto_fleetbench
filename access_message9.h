@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <string>
 
-#include "proto_files/protos/Message9.pb.h"
+#include "proto_files/Message9.pb.h"
 #include "receiver.h"
 namespace proto {
 
