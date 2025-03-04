@@ -1,0 +1,10 @@
+/home/chenqh23/ser1de/protobuf/protoc Message0.proto --cpp_out=.
+/home/chenqh23/ser1de/protobuf/protoc Message1.proto --cpp_out=.
+/home/chenqh23/ser1de/protobuf/protoc Message2.proto --cpp_out=.
+/home/chenqh23/ser1de/protobuf/protoc Message3.proto --cpp_out=.
+/home/chenqh23/ser1de/protobuf/protoc Message4.proto --cpp_out=.
+/home/chenqh23/ser1de/protobuf/protoc Message5.proto --cpp_out=.
+/home/chenqh23/ser1de/protobuf/protoc Message6.proto --cpp_out=.
+/home/chenqh23/ser1de/protobuf/protoc Message7.proto --cpp_out=.
+/home/chenqh23/ser1de/protobuf/protoc Message8.proto --cpp_out=.
+/home/chenqh23/ser1de/protobuf/protoc Message9.proto --cpp_out=.
