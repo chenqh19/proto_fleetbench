@@ -1,2 +1,6 @@
 # Build directory
 build/
+
+# Protobuf files
+Message*.pb.cc
+Message*.pb.h
