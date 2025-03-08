@@ -21,7 +21,8 @@
 #include "absl/strings/cord.h"
 #include "absl/strings/string_view.h"
 #include "ser1de.h"
-#include<chrono>
+#include <chrono>
+#include <atomic>
 // #include "benchmark/benchmark.h"
 
 namespace proto {
@@ -32,7 +33,7 @@ std::chrono::duration<double> total_serialize_time;
 std::chrono::duration<double> total_deserialize_time;
 
 void InitializeSer1de() {
-  ser1de = new Ser1de();
+  ser1de = new Ser1de("Software");
 }
 
 size_t total_serialize_count = 0;
@@ -91,26 +92,29 @@ template <typename M>
 void Copy(M* message, M* other_message) {
   message->CopyFrom(*other_message);
   // benchmark::ClobberMemory();
+  std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
 void Clear(M* message) {
   message->Clear();
   // benchmark::ClobberMemory();
+  std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
 void Create(M* message) {
   *message = M();
   // benchmark::ClobberMemory();
+  std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
 void Deserialize(M* message, std::string* serialized) {
   auto start = std::chrono::high_resolution_clock::now();
   //ser1de->ParseFromStringDebug(*serialized, message);
-  ser1de->ParseFromString(*serialized, message);
-  //auto result = message->ParseFromString(*serialized);
+  // ser1de->ParseFromString(*serialized, message);
+  auto result = message->ParseFromString(*serialized);
   // benchmark::DoNotOptimize(result);
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> duration = end - start;
@@ -122,6 +126,7 @@ template <typename M>
 void Destroy(M* message) {
   if (message->GetArena() == nullptr) delete message;
   // benchmark::ClobberMemory();
+  std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
@@ -146,19 +151,21 @@ template <typename M>
 void Merge(M* message, M* other_message) {
   message->MergeFrom(*other_message);
   // benchmark::ClobberMemory();
+  std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
 void Serialize(M* message, std::string* serialized) {
   auto start = std::chrono::high_resolution_clock::now();
   //ser1de->SerializeToStringDebug(*message, serialized);
-  ser1de->SerializeToString(*message, serialized);
-  //message->SerializeToString(serialized);
+  // ser1de->SerializeToString(*message, serialized);
+  message->SerializeToString(serialized);
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> duration = end - start;
   total_serialize_time += duration;
   total_serialize_count++;
   // benchmark::ClobberMemory();
+  std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
@@ -183,6 +190,7 @@ template <typename M>
 void Swap(M* message, M* other_message) {
   message->Swap(other_message);
   // benchmark::ClobberMemory();
+  std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 }  // namespace fleetbench::proto
 
