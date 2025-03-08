@@ -34,7 +34,7 @@
 
 namespace proto {
 
-const int kMaxValueStringSize = 1 << 20;
+const int kMaxValueStringSize = 1 << 10;
 
 template <typename MessageType>
 struct Message {
