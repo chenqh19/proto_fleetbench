@@ -21,19 +21,33 @@
 #include "absl/strings/cord.h"
 #include "absl/strings/string_view.h"
 #include "ser1de.h"
-//#include "object.h"
+#include<chrono>
 // #include "benchmark/benchmark.h"
 
 namespace proto {
 
 Ser1de* ser1de;
 
+std::chrono::duration<double> total_serialize_time;
+std::chrono::duration<double> total_deserialize_time;
+
 void InitializeSer1de() {
-  ser1de = new Ser1de("Software");
+  ser1de = new Ser1de();
 }
+
+size_t total_serialize_count = 0;
+size_t total_deserialize_count = 0;
 
 void DestroySer1de() {
   delete ser1de;
+  ser1de = nullptr;
+  std::cout << "Total serialize time: " << std::chrono::duration_cast<std::chrono::milliseconds>(total_serialize_time).count() << "ms" << std::endl;
+  std::cout << "Average serialize time: " << std::chrono::duration_cast<std::chrono::microseconds>(total_serialize_time / total_serialize_count).count() << "us" << std::endl;
+  std::cout << "Total serialize count: " << total_serialize_count << std::endl;
+  std::cout << "Total deserialize time: " << std::chrono::duration_cast<std::chrono::milliseconds>(total_deserialize_time).count() << "ms" << std::endl;
+  std::cout << "Average deserialize time: " << std::chrono::duration_cast<std::chrono::microseconds>(total_deserialize_time / total_deserialize_count).count() << "us" << std::endl;
+  std::cout << "Total deserialize count: " << total_deserialize_count << std::endl;
+  std::cout << "----------------------------------------" << std::endl;
 }
 
 template <typename T>
@@ -93,9 +107,15 @@ void Create(M* message) {
 
 template <typename M>
 void Deserialize(M* message, std::string* serialized) {
-  //ser1de->ParseFromString(*serialized, message);
-  auto result = message->ParseFromString(*serialized);
+  auto start = std::chrono::high_resolution_clock::now();
+  //ser1de->ParseFromStringDebug(*serialized, message);
+  ser1de->ParseFromString(*serialized, message);
+  //auto result = message->ParseFromString(*serialized);
   // benchmark::DoNotOptimize(result);
+  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> duration = end - start;
+  total_deserialize_time += duration;
+  total_deserialize_count++;
 }
 
 template <typename M>
@@ -124,14 +144,20 @@ void IsInitialized(M* message) {
 
 template <typename M>
 void Merge(M* message, M* other_message) {
-  //message->MergeFrom(*other_message);
+  message->MergeFrom(*other_message);
   // benchmark::ClobberMemory();
 }
 
 template <typename M>
 void Serialize(M* message, std::string* serialized) {
-  //ser1de->SerializeToString(*message, serialized);
-  message->SerializeToString(serialized);
+  auto start = std::chrono::high_resolution_clock::now();
+  //ser1de->SerializeToStringDebug(*message, serialized);
+  ser1de->SerializeToString(*message, serialized);
+  //message->SerializeToString(serialized);
+  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> duration = end - start;
+  total_serialize_time += duration;
+  total_serialize_count++;
   // benchmark::ClobberMemory();
 }
 
