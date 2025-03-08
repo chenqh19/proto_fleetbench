@@ -22,15 +22,15 @@ link_directories($ENV{PROTO_PATH}/third_party/utf8_range)
 link_directories($ENV{PROTO_PATH}/third_party/abseil-cpp)
 
 # add qpl link directory
-#link_directories($ENV{QPL_PATH}/lib)
+link_directories($ENV{QPL_PATH}/lib)
 #link_directories($ENV{DML_PATH}/lib)
 
-#include_directories($ENV{SER1DE_LIB_PATH})
+include_directories($ENV{SER1DE_LIB_PATH})
 #include_directories(exp/stubs)
 #include_directories(exp/stubs/exp)
 
 # add qpl include directory
-#include_directories($ENV{QPL_PATH}/include/)
+include_directories($ENV{QPL_PATH}/include/)
 #include_directories($ENV{DML_PATH}/include/)
 
 set(protobuf_ABSL_USED_TARGETS
@@ -74,4 +74,5 @@ add_executable(test main.cc lifecycle.cc
     proto_files/Message0.pb.cc proto_files/Message1.pb.cc proto_files/Message2.pb.cc proto_files/Message3.pb.cc 
     proto_files/Message4.pb.cc proto_files/Message5.pb.cc proto_files/Message6.pb.cc proto_files/Message7.pb.cc 
     proto_files/Message8.pb.cc proto_files/Message9.pb.cc)
-target_link_libraries(test protobuf utf8_validity ${protobuf_ABSL_USED_TARGETS})
+#target_link_libraries(test protobuf utf8_validity ${protobuf_ABSL_USED_TARGETS})
+target_link_libraries(test protobuf utf8_validity ${protobuf_ABSL_USED_TARGETS} qpl)

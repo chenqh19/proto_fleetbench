@@ -20,9 +20,21 @@
 
 #include "absl/strings/cord.h"
 #include "absl/strings/string_view.h"
+#include "ser1de.h"
+//#include "object.h"
 // #include "benchmark/benchmark.h"
 
 namespace proto {
+
+Ser1de* ser1de;
+
+void InitializeSer1de() {
+  ser1de = new Ser1de("Software");
+}
+
+void DestroySer1de() {
+  delete ser1de;
+}
 
 template <typename T>
 inline void Receive(const T& val) {
@@ -81,6 +93,7 @@ void Create(M* message) {
 
 template <typename M>
 void Deserialize(M* message, std::string* serialized) {
+  //ser1de->ParseFromString(*serialized, message);
   auto result = message->ParseFromString(*serialized);
   // benchmark::DoNotOptimize(result);
 }
@@ -111,12 +124,13 @@ void IsInitialized(M* message) {
 
 template <typename M>
 void Merge(M* message, M* other_message) {
-  message->MergeFrom(*other_message);
+  //message->MergeFrom(*other_message);
   // benchmark::ClobberMemory();
 }
 
 template <typename M>
 void Serialize(M* message, std::string* serialized) {
+  //ser1de->SerializeToString(*message, serialized);
   message->SerializeToString(serialized);
   // benchmark::ClobberMemory();
 }
