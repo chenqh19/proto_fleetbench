@@ -113,10 +113,10 @@ template <typename M>
 void Deserialize(M* message, std::string* serialized) {
   auto start = std::chrono::high_resolution_clock::now();
   // ser1de->ParseFromStringDebug(*serialized, message);
-  // ser1de->ParseFromString(*serialized, message);
-  auto result = message->ParseFromString(*serialized);
-  asm volatile("" : : "r,m"(result) : "memory");
+  ser1de->ParseFromString(*serialized, message);
+  // auto result = message->ParseFromString(*serialized);
   auto end = std::chrono::high_resolution_clock::now();
+  // asm volatile("" : : "r,m"(result) : "memory");
   std::chrono::duration<double> duration = end - start;
   total_deserialize_time += duration;
   total_deserialize_count++;
@@ -158,8 +158,8 @@ template <typename M>
 void Serialize(M* message, std::string* serialized) {
   auto start = std::chrono::high_resolution_clock::now();
   // ser1de->SerializeToStringDebug(*message, serialized);
-  // ser1de->SerializeToString(*message, serialized);
-  message->SerializeToString(serialized);
+  ser1de->SerializeToString(*message, serialized);
+  // message->SerializeToString(serialized);
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> duration = end - start;
   total_serialize_time += duration;

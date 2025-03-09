@@ -1,0 +1,6 @@
+iterations,benchmark_time,serialize+deserialize,serialize,deserialize
+10,665,244,44,200
+30,1795,739,137,602
+100,5616,2440,445,1995
+300,16606,7314,1339,5975
+1000,54997,24365,4456,19909

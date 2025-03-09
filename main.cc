@@ -3,18 +3,25 @@
 #include "lifecycle.h"
 #include "google/protobuf/arena.h"
 
-int main() {
-    
+int main(int argc, char* argv[]) {
     // Create lifecycle object. Each lifecycle object is 10 iterations.
     proto::ProtoLifecycle lifecycle(10);
     
+    // Parse iterations from command line, default to 8 if not provided
+    int iterations = 8;
+    if (argc > 1) {
+        iterations = std::atoi(argv[1]);
+        if (iterations <= 0) {
+            std::cerr << "Error: Number of iterations must be positive" << std::endl;
+            return 1;
+        }
+    }
     
-    // Run lifecycle 10 times
-    std::cout << "Running lifecycle 10 times..." << std::endl;
+    std::cout << "Running lifecycle " << iterations << " times..." << std::endl;
     auto start_time = std::chrono::high_resolution_clock::now();
     
     // run the lifecycle several times
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < iterations; i++) {
         google::protobuf::Arena arena;
         lifecycle.Init(&arena);
         lifecycle.Run();
