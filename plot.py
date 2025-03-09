@@ -22,44 +22,42 @@ def read_csv_file(filename):
 protobuf_data = read_csv_file('protobuf_latency.txt')
 ser1de_data = read_csv_file('ser1de_latency.txt')
 
-# Create two subplots
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 16))
-
-# First plot: benchmark_time and serialize+deserialize
+# First figure: benchmark_time and serialize+deserialize
+plt.figure(figsize=(10, 8))
 metrics1 = ['benchmark_time', 'serialize+deserialize']
 for metric in metrics1:
-    ax1.plot(protobuf_data['iterations'], protobuf_data[metric], 
+    plt.plot(protobuf_data['iterations'], protobuf_data[metric], 
              linestyle=':', label=f'Protobuf {metric}', marker='o')
-    ax1.plot(ser1de_data['iterations'], ser1de_data[metric], 
+    plt.plot(ser1de_data['iterations'], ser1de_data[metric], 
              linestyle='-', label=f'Ser1de {metric}', marker='s')
 
-ax1.set_xlabel('Iterations')
-ax1.set_ylabel('Time (microseconds)')
-ax1.set_title('Benchmark Time and Total Serialization Performance')
-ax1.grid(True, linestyle='--', alpha=0.7)
-ax1.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-ax1.set_xscale('log')
-ax1.set_yscale('log')
+plt.xlabel('Iterations')
+plt.ylabel('Time (milliseconds)')
+plt.title('Benchmark Time and Total Serialization Performance')
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.xscale('log')
+plt.yscale('log')
+plt.tight_layout()
+plt.savefig('latency_comparison_total.png', bbox_inches='tight', dpi=300)
+plt.close()
 
-# Second plot: serialize and deserialize
+# Second figure: serialize and deserialize
+plt.figure(figsize=(10, 8))
 metrics2 = ['serialize', 'deserialize']
 for metric in metrics2:
-    ax2.plot(protobuf_data['iterations'], protobuf_data[metric], 
+    plt.plot(protobuf_data['iterations'], protobuf_data[metric], 
              linestyle=':', label=f'Protobuf {metric}', marker='o')
-    ax2.plot(ser1de_data['iterations'], ser1de_data[metric], 
+    plt.plot(ser1de_data['iterations'], ser1de_data[metric], 
              linestyle='-', label=f'Ser1de {metric}', marker='s')
 
-ax2.set_xlabel('Iterations')
-ax2.set_ylabel('Time (microseconds)')
-ax2.set_title('Individual Serialize and Deserialize Performance')
-ax2.grid(True, linestyle='--', alpha=0.7)
-ax2.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-ax2.set_xscale('log')
-ax2.set_yscale('log')
-
-# Adjust layout to prevent label cutoff
+plt.xlabel('Iterations')
+plt.ylabel('Time (microseconds)')
+plt.title('Individual Serialize and Deserialize Performance')
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.xscale('log')
+plt.yscale('log')
 plt.tight_layout()
-
-# Save the plot
-plt.savefig('latency_comparison.png', bbox_inches='tight', dpi=300)
+plt.savefig('latency_comparison_individual.png', bbox_inches='tight', dpi=300)
 plt.close()
