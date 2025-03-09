@@ -54,18 +54,18 @@ void DestroySer1de() {
 template <typename T>
 inline void Receive(const T& val) {
   T temp_val = val;
-  // benchmark::DoNotOptimize(temp_val);
+  asm volatile("" : : "r,m"(temp_val) : "memory");
 }
 
 inline void Receive(const absl::Cord& val) {
   absl::Cord temp_cord;
   temp_cord.Append(val);
-  // benchmark::DoNotOptimize(temp_cord);
+  asm volatile("" : : "r,m"(temp_cord) : "memory");
 }
 
 inline void Receive(const std::string& val) {
   const std::string* temp_str = &val;
-  // benchmark::DoNotOptimize(temp_str);
+  asm volatile("" : : "r,m"(temp_str) : "memory");
 }
 
 inline void ReceiveCord(const absl::Cord& val) { Receive(val); }
@@ -112,10 +112,8 @@ void Create(M* message) {
 template <typename M>
 void Deserialize(M* message, std::string* serialized) {
   auto start = std::chrono::high_resolution_clock::now();
-  //ser1de->ParseFromStringDebug(*serialized, message);
-  // ser1de->ParseFromString(*serialized, message);
   auto result = message->ParseFromString(*serialized);
-  // benchmark::DoNotOptimize(result);
+  asm volatile("" : : "r,m"(result) : "memory");
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> duration = end - start;
   total_deserialize_time += duration;
@@ -132,19 +130,19 @@ void Destroy(M* message) {
 template <typename M>
 void Descriptor(M* message) {
   auto field_count = message->GetDescriptor()->field_count();
-  // benchmark::DoNotOptimize(field_count);
+  asm volatile("" : : "r,m"(field_count) : "memory");
 }
 
 template <typename M>
 void EnumDescriptor(M* message) {
   auto type = message->GetDescriptor()->enum_type(0);
-  // benchmark::DoNotOptimize(type);
+  asm volatile("" : : "r,m"(type) : "memory");
 }
 
 template <typename M>
 void IsInitialized(M* message) {
   auto initialized = message->IsInitialized();
-  // benchmark::DoNotOptimize(initialized);
+  asm volatile("" : : "r,m"(initialized) : "memory");
 }
 
 template <typename M>
@@ -171,19 +169,19 @@ void Serialize(M* message, std::string* serialized) {
 template <typename M>
 void ByteSize(M* message) {
   auto byte_size = message->ByteSizeLong();
-  // benchmark::DoNotOptimize(byte_size);
+  asm volatile("" : : "r,m"(byte_size) : "memory");
 }
 
 template <typename M>
 void Reflection(M* message) {
   auto default_inst = message->GetReflection()->IsDefaultInstance(*message);
-  // benchmark::DoNotOptimize(default_inst);
+  asm volatile("" : : "r,m"(default_inst) : "memory");
 }
 
 template <typename M>
 void SpaceUsed(M* message) {
   auto space_used = message->SpaceUsedLong();
-  // benchmark::DoNotOptimize(space_used);
+  asm volatile("" : : "r,m"(space_used) : "memory");
 }
 
 template <typename M>
