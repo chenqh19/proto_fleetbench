@@ -22,31 +22,40 @@ def read_csv_file(filename):
 protobuf_data = read_csv_file('protobuf_latency.txt')
 ser1de_data = read_csv_file('ser1de_latency.txt')
 
-# Create the plot
-plt.figure(figsize=(12, 8))
+# Create two subplots
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 16))
 
-# Plot protobuf data (dotted lines)
-for column in protobuf_data:
-    if column != 'iterations':  # Skip 'iterations' column
-        plt.plot(protobuf_data['iterations'], protobuf_data[column], 
-                linestyle=':', label=f'Protobuf {column}', marker='o')
+# First plot: benchmark_time and serialize+deserialize
+metrics1 = ['benchmark_time', 'serialize+deserialize']
+for metric in metrics1:
+    ax1.plot(protobuf_data['iterations'], protobuf_data[metric], 
+             linestyle=':', label=f'Protobuf {metric}', marker='o')
+    ax1.plot(ser1de_data['iterations'], ser1de_data[metric], 
+             linestyle='-', label=f'Ser1de {metric}', marker='s')
 
-# Plot ser1de data (solid lines)
-for column in ser1de_data:
-    if column != 'iterations':  # Skip 'iterations' column
-        plt.plot(ser1de_data['iterations'], ser1de_data[column], 
-                linestyle='-', label=f'Ser1de {column}', marker='s')
+ax1.set_xlabel('Iterations')
+ax1.set_ylabel('Time (microseconds)')
+ax1.set_title('Benchmark Time and Total Serialization Performance')
+ax1.grid(True, linestyle='--', alpha=0.7)
+ax1.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+ax1.set_xscale('log')
+ax1.set_yscale('log')
 
-# Customize the plot
-plt.xlabel('Iterations')
-plt.ylabel('Time (microseconds)')
-plt.title('Performance Comparison: Protobuf vs Ser1de')
-plt.grid(True, linestyle='--', alpha=0.7)
-plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+# Second plot: serialize and deserialize
+metrics2 = ['serialize', 'deserialize']
+for metric in metrics2:
+    ax2.plot(protobuf_data['iterations'], protobuf_data[metric], 
+             linestyle=':', label=f'Protobuf {metric}', marker='o')
+    ax2.plot(ser1de_data['iterations'], ser1de_data[metric], 
+             linestyle='-', label=f'Ser1de {metric}', marker='s')
 
-# Use logarithmic scale for better visualization
-plt.xscale('log')
-plt.yscale('log')
+ax2.set_xlabel('Iterations')
+ax2.set_ylabel('Time (microseconds)')
+ax2.set_title('Individual Serialize and Deserialize Performance')
+ax2.grid(True, linestyle='--', alpha=0.7)
+ax2.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+ax2.set_xscale('log')
+ax2.set_yscale('log')
 
 # Adjust layout to prevent label cutoff
 plt.tight_layout()
