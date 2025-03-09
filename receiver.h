@@ -23,7 +23,7 @@
 #include "ser1de.h"
 #include <chrono>
 #include <atomic>
-// #include "benchmark/benchmark.h"
+#include "benchmark/benchmark.h"
 
 namespace proto {
 
@@ -112,6 +112,8 @@ void Create(M* message) {
 template <typename M>
 void Deserialize(M* message, std::string* serialized) {
   auto start = std::chrono::high_resolution_clock::now();
+  // ser1de->ParseFromStringDebug(*serialized, message);
+  // ser1de->ParseFromString(*serialized, message);
   auto result = message->ParseFromString(*serialized);
   asm volatile("" : : "r,m"(result) : "memory");
   auto end = std::chrono::high_resolution_clock::now();
@@ -155,7 +157,7 @@ void Merge(M* message, M* other_message) {
 template <typename M>
 void Serialize(M* message, std::string* serialized) {
   auto start = std::chrono::high_resolution_clock::now();
-  //ser1de->SerializeToStringDebug(*message, serialized);
+  // ser1de->SerializeToStringDebug(*message, serialized);
   // ser1de->SerializeToString(*message, serialized);
   message->SerializeToString(serialized);
   auto end = std::chrono::high_resolution_clock::now();
