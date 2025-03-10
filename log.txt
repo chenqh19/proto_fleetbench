@@ -1,0 +1,51 @@
+Ser1de:
+----------------------------------------
+Total serialize time: 538ms
+Average serialize time: 67us
+Total serialize count: 8000
+Total deserialize time: 1708ms
+Average deserialize time: 77us
+Total deserialize count: 22000
+Total merge time: 1093ms
+Average merge time: 57us
+Total merge count: 19000
+Total destroy time: 0ms
+Average destroy time: 0us
+Total destroy count: 20000
+Total copy time: 504ms
+Average copy time: 72us
+Total copy count: 7000
+Total clear time: 81ms
+Average clear time: 20us
+Total clear count: 4000
+Total create time: 6ms
+Average create time: 0us
+Total create count: 9000
+----------------------------------------
+Completed all iterations in 6467 milliseconds.
+
+Protobuf:
+----------------------------------------
+Total serialize time: 448ms
+Average serialize time: 56us
+Total serialize count: 8000
+Total deserialize time: 2002ms
+Average deserialize time: 91us
+Total deserialize count: 22000
+Total merge time: 762ms
+Average merge time: 40us
+Total merge count: 19000
+Total destroy time: 0ms
+Average destroy time: 0us
+Total destroy count: 20000
+Total copy time: 492ms
+Average copy time: 70us
+Total copy count: 7000
+Total clear time: 44ms
+Average clear time: 11us
+Total clear count: 4000
+Total create time: 6ms
+Average create time: 0us
+Total create count: 9000
+----------------------------------------
+Completed all iterations in 5664 milliseconds.
