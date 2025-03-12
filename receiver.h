@@ -87,18 +87,18 @@ void DestroySer1de() {
 template <typename T>
 inline void Receive(const T& val) {
   T temp_val = val;
-  asm volatile("" : : "r,m"(temp_val) : "memory");
+  // asm volatile("" : : "r,m"(temp_val) : "memory");
 }
 
 inline void Receive(const absl::Cord& val) {
   absl::Cord temp_cord;
   temp_cord.Append(val);
-  asm volatile("" : : "r,m"(temp_cord) : "memory");
+  // asm volatile("" : : "r,m"(temp_cord) : "memory");
 }
 
 inline void Receive(const std::string& val) {
   const std::string* temp_str = &val;
-  asm volatile("" : : "r,m"(temp_str) : "memory");
+  // asm volatile("" : : "r,m"(temp_str) : "memory");
 }
 
 inline void ReceiveCord(const absl::Cord& val) { Receive(val); }
@@ -129,7 +129,7 @@ void Copy(M* message, M* other_message) {
   std::chrono::duration<double> duration = end - start;
   total_copy_time += duration;
   total_copy_count++;
-  std::atomic_signal_fence(std::memory_order_acq_rel);
+  // std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
@@ -140,7 +140,7 @@ void Clear(M* message) {
   std::chrono::duration<double> duration = end - start;
   total_clear_time += duration;
   total_clear_count++;
-  std::atomic_signal_fence(std::memory_order_acq_rel);
+  // std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
@@ -151,7 +151,7 @@ void Create(M* message) {
   std::chrono::duration<double> duration = end - start;
   total_create_time += duration;
   total_create_count++;
-  std::atomic_signal_fence(std::memory_order_acq_rel);
+  // std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
@@ -161,7 +161,7 @@ void Deserialize(M* message, std::string* serialized) {
   // ser1de->ParseFromString(*serialized, message);
   auto result = message->ParseFromString(*serialized);
   auto end = std::chrono::high_resolution_clock::now();
-  asm volatile("" : : "r,m"(result) : "memory");
+  // asm volatile("" : : "r,m"(result) : "memory");
   std::chrono::duration<double> duration = end - start;
   total_deserialize_time += duration;
   total_deserialize_count++;
@@ -175,25 +175,25 @@ void Destroy(M* message) {
   std::chrono::duration<double> duration = end - start;
   total_destroy_time += duration;
   total_destroy_count++;
-  std::atomic_signal_fence(std::memory_order_acq_rel);
+  // std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
 void Descriptor(M* message) {
   auto field_count = message->GetDescriptor()->field_count();
-  asm volatile("" : : "r,m"(field_count) : "memory");
+  // asm volatile("" : : "r,m"(field_count) : "memory");
 }
 
 template <typename M>
 void EnumDescriptor(M* message) {
   auto type = message->GetDescriptor()->enum_type(0);
-  asm volatile("" : : "r,m"(type) : "memory");
+  // asm volatile("" : : "r,m"(type) : "memory");
 }
 
 template <typename M>
 void IsInitialized(M* message) {
   auto initialized = message->IsInitialized();
-  asm volatile("" : : "r,m"(initialized) : "memory");
+  // asm volatile("" : : "r,m"(initialized) : "memory");
 }
 
 template <typename M>
@@ -204,7 +204,7 @@ void Merge(M* message, M* other_message) {
   std::chrono::duration<double> duration = end - start;
   total_merge_time += duration;
   total_merge_count++;
-  std::atomic_signal_fence(std::memory_order_acq_rel);
+  // std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
@@ -218,32 +218,32 @@ void Serialize(M* message, std::string* serialized) {
   total_serialize_time += duration;
   total_serialize_count++;
   // benchmark::ClobberMemory();
-  std::atomic_signal_fence(std::memory_order_acq_rel);
+  // std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 
 template <typename M>
 void ByteSize(M* message) {
   auto byte_size = message->ByteSizeLong();
-  asm volatile("" : : "r,m"(byte_size) : "memory");
+  // asm volatile("" : : "r,m"(byte_size) : "memory");
 }
 
 template <typename M>
 void Reflection(M* message) {
   auto default_inst = message->GetReflection()->IsDefaultInstance(*message);
-  asm volatile("" : : "r,m"(default_inst) : "memory");
+  // asm volatile("" : : "r,m"(default_inst) : "memory");
 }
 
 template <typename M>
 void SpaceUsed(M* message) {
   auto space_used = message->SpaceUsedLong();
-  asm volatile("" : : "r,m"(space_used) : "memory");
+  // asm volatile("" : : "r,m"(space_used) : "memory");
 }
 
 template <typename M>
 void Swap(M* message, M* other_message) {
   message->Swap(other_message);
   // benchmark::ClobberMemory();
-  std::atomic_signal_fence(std::memory_order_acq_rel);
+  // std::atomic_signal_fence(std::memory_order_acq_rel);
 }
 }  // namespace fleetbench::proto
 
