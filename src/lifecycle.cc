@@ -175,7 +175,15 @@ void ProtoLifecycle::Run() {
   }
   std::shuffle(indices_.begin(), indices_.end(), GetRNG());
   for (const auto& i : indices_) {
+    Create(message6_.message[i]);
+  }
+  std::shuffle(indices_.begin(), indices_.end(), GetRNG());
+  for (const auto& i : indices_) {
     Create(message2_.message[i]);
+  }
+  std::shuffle(indices_.begin(), indices_.end(), GetRNG());
+  for (const auto& i : indices_) {
+    Copy(message6_.message[i], message6_.other_message[i]);
   }
   std::shuffle(indices_.begin(), indices_.end(), GetRNG());
   for (const auto& i : indices_) {
@@ -185,10 +193,10 @@ void ProtoLifecycle::Run() {
   for (const auto& i : indices_) {
     Copy(message2_.message[i], message2_.other_message[i]);
   }
-  // std::shuffle(indices_.begin(), indices_.end(), GetRNG());
-  // for (const auto& i : indices_) {
-  //   Serialize(message6_.message[i], &message6_.string[i]);
-  // }
+  std::shuffle(indices_.begin(), indices_.end(), GetRNG());
+  for (const auto& i : indices_) {
+    Serialize(message6_.message[i], &message6_.string[i]);
+  }
   std::shuffle(indices_.begin(), indices_.end(), GetRNG());
   for (const auto& i : indices_) {
     ByteSize(message2_.message[i]);
@@ -241,18 +249,18 @@ void ProtoLifecycle::Run() {
   for (const auto& i : indices_) {
     Serialize(message8_.message[i], &message8_.string[i]);
   }
-  // std::shuffle(indices_.begin(), indices_.end(), GetRNG());
-  // for (const auto& i : indices_) {
-  //   Deserialize(message6_.message[i], &message6_.string[i]);
-  // }
+  std::shuffle(indices_.begin(), indices_.end(), GetRNG());
+  for (const auto& i : indices_) {
+    Deserialize(message6_.message[i], &message6_.string[i]);
+  }
   std::shuffle(indices_.begin(), indices_.end(), GetRNG());
   for (const auto& i : indices_) {
     Deserialize(message8_.message[i], &message8_.string[i]);
   }
-  // std::shuffle(indices_.begin(), indices_.end(), GetRNG());
-  // for (const auto& i : indices_) {
-  //   Deserialize(message6_.other_message[i], &message6_.string[i]);
-  // }
+  std::shuffle(indices_.begin(), indices_.end(), GetRNG());
+  for (const auto& i : indices_) {
+    Deserialize(message6_.other_message[i], &message6_.string[i]);
+  }
   std::shuffle(indices_.begin(), indices_.end(), GetRNG());
   for (const auto& i : indices_) {
     Deserialize(message7_.message[i], &message7_.string[i]);
@@ -335,6 +343,10 @@ void ProtoLifecycle::Run() {
   }
   std::shuffle(indices_.begin(), indices_.end(), GetRNG());
   for (const auto& i : indices_) {
+    Message6_Get_1(message6_.message[i]);
+  }
+  std::shuffle(indices_.begin(), indices_.end(), GetRNG());
+  for (const auto& i : indices_) {
     Message4_Get_1(message4_.message[i]);
   }
   std::shuffle(indices_.begin(), indices_.end(), GetRNG());
@@ -407,11 +419,19 @@ void ProtoLifecycle::Run() {
   }
   std::shuffle(indices_.begin(), indices_.end(), GetRNG());
   for (const auto& i : indices_) {
+    SpaceUsed(message6_.message[i]);
+  }
+  std::shuffle(indices_.begin(), indices_.end(), GetRNG());
+  for (const auto& i : indices_) {
     Reflection(message1_.message[i]);
   }
   std::shuffle(indices_.begin(), indices_.end(), GetRNG());
   for (const auto& i : indices_) {
     Message0_Get_1(message0_.message[i]);
+  }
+  std::shuffle(indices_.begin(), indices_.end(), GetRNG());
+  for (const auto& i : indices_) {
+    Merge(message6_.message[i], message6_.other_message[i]);
   }
   std::shuffle(indices_.begin(), indices_.end(), GetRNG());
   for (const auto& i : indices_) {
@@ -703,5 +723,4 @@ void ProtoLifecycle::Run() {
   }
   DestroySer1de();
 }
-
 }  // namespace proto
